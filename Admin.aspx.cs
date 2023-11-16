@@ -2,6 +2,8 @@
 using System.Data.SqlClient;
 using System.Data;
 using System.Web.Configuration;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 
 namespace MSDAssignment4
 {
@@ -113,4 +115,43 @@ namespace MSDAssignment4
                 }
             }
         }
-    } }
+
+        protected void AdminMemberView_SelectedIndexChanged(object sender, EventArgs e)
+        {            
+            GridViewRow row = AdminMemberView.SelectedRow;          
+            int memberId = (int)AdminMemberView.DataKeys[row.RowIndex].Value;            
+            ViewState["SelectedMemberUserID"] = memberId;
+        }
+
+        protected void DeleteMemberButton_Click(object sender, EventArgs e)
+        {
+            if (ViewState["SelectedMemberUserID"] != null)
+            {               
+                int memberUserId = (int)ViewState["SelectedMemberUserID"];
+                DeleteMember(memberUserId);
+                BindMembersGrid();
+            }
+            else
+            {                
+                string script = "alert('Please select a member first.');";
+                ScriptManager.RegisterStartupScript(this, GetType(), "popupMessage", script, true);
+            }
+        }
+
+        private void DeleteMember(int memberUserId)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                // Use the correct column name from your database table in the SQL statement
+                string sql = @"DELETE FROM Member WHERE Member_UserID = @MemberUserId";
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    // Use the correct parameter name that matches the SQL statement
+                    cmd.Parameters.AddWithValue("@MemberUserId", memberUserId);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+    }
+}
