@@ -64,10 +64,11 @@
         <tr>
             <td class="auto-style3">
                 <br />
-                <asp:GridView ID="AdminInstructorView" runat="server" CellPadding="4" CssClass="auto-style1" ForeColor="#333333" GridLines="None">
+                <asp:GridView ID="AdminInstructorView" runat="server" CellPadding="4" CssClass="auto-style1" ForeColor="#333333" GridLines="None"
+                    AutoGenerateColumns="true" DataKeyNames="InstructorID" OnSelectedIndexChanged="AdminInstructorView_SelectedIndexChanged">
                     <AlternatingRowStyle BackColor="White" />
                     <Columns>
-                        <asp:ButtonField CommandName="Cancel" Text="Select" />
+                        <asp:ButtonField CommandName="Select" Text="Select" />
                     </Columns>
                     <EditRowStyle BackColor="#7C6F57" />
                     <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
@@ -88,11 +89,11 @@
                 <asp:TextBox ID="InstructorLastName" runat="server"></asp:TextBox>
                 &nbsp;<asp:Label ID="Label6" runat="server" Text="Last Name"></asp:Label>
                 <br />
-                <asp:Button ID="AddInstructorButton" runat="server" Text="Add Instructor" />
+                <asp:Button ID="AddInstructorButton" runat="server" Text="Add Instructor" OnClick="AddInstructorButton_Click" />
             </td>
             <td class="auto-style4">Delete Selected Instructor<br />
                 <br />
-                <asp:Button ID="DeleteInstructorButton" runat="server" Text="Delete Instructor" />
+                <asp:Button ID="DeleteInstructorButton" runat="server" Text="Delete Instructor" OnClick="DeleteInstructorButton_Click" />
             </td>
             <td>&nbsp;</td>
         </tr>

@@ -58,7 +58,7 @@ namespace MSDAssignment4
         protected void AddMemberButton_Click(object sender, EventArgs e)
         {
             
-            int newUserId = InsertNetUserAndGetId(MemberFirstName.Text, MemberLastName.Text);
+            int newUserId = InsertNetUserAndGetId(MemberFirstName.Text, MemberLastName.Text, "Member");
             if (newUserId > 0)
             {
                 
@@ -90,22 +90,21 @@ namespace MSDAssignment4
             }
 
         }
-        private int InsertNetUserAndGetId(string firstName, string lastName)
+        private int InsertNetUserAndGetId(string firstName, string lastName, string userType)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                
                 string username = $"{firstName}.{lastName}".ToLower();
-                string password = $"{firstName}.{lastName}".ToLower();
+                string password = $"{firstName}.{lastName}".ToLower(); // We can hash this later if we want to and make it better andrew
                 string sql = @"INSERT INTO NetUser (UserName, UserPassword, UserType)
-                       VALUES (@UserName, @UserPassword, 'Member');
+                       VALUES (@UserName, @UserPassword, @UserType);
                        SELECT SCOPE_IDENTITY();";
 
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {
                     cmd.Parameters.AddWithValue("@UserName", username);
-                    cmd.Parameters.AddWithValue("@UserPassword", password); 
-                    cmd.Parameters.AddWithValue("@UserType", "Member");
+                    cmd.Parameters.AddWithValue("@UserPassword", password);
+                    cmd.Parameters.AddWithValue("@UserType", userType); 
 
                     con.Open();
                     object result = cmd.ExecuteScalar();
@@ -119,6 +118,13 @@ namespace MSDAssignment4
             GridViewRow row = AdminMemberView.SelectedRow;          
             int memberId = (int)AdminMemberView.DataKeys[row.RowIndex].Value;            
             ViewState["SelectedMemberUserID"] = memberId;
+        }
+
+        protected void AdminInstructorView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GridViewRow row = AdminInstructorView.SelectedRow;
+            int instructorId = (int)AdminInstructorView.DataKeys[row.RowIndex].Value;
+            ViewState["SelectedInstructorID"] = instructorId;
         }
 
         protected void DeleteMemberButton_Click(object sender, EventArgs e)
@@ -136,18 +142,115 @@ namespace MSDAssignment4
             }
         }
 
+        protected void DeleteInstructorButton_Click(object sender, EventArgs e)
+        {
+            if (ViewState["SelectedInstructorID"] != null)
+            {
+                int InstructorID = (int)ViewState["SelectedInstructorID"];
+                DeleteInstructor(InstructorID);
+                BindInstructorsGrid();
+            }
+            else
+            {
+                string script = "alert('Please select a instructor first.');";
+                ScriptManager.RegisterStartupScript(this, GetType(), "popupMessage", script, true);
+            }
+        }
+
         private void DeleteMember(int memberUserId)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                
-                string sql = @"DELETE FROM Member WHERE Member_UserID = @MemberUserId";
-                using (SqlCommand cmd = new SqlCommand(sql, con))
+            {                
+                con.Open();
+                SqlTransaction transaction = con.BeginTransaction();
+
+                try
                 {                    
-                    cmd.Parameters.AddWithValue("@MemberUserId", memberUserId);
-                    con.Open();
-                    cmd.ExecuteNonQuery();
+                    string deleteMemberSql = @"DELETE FROM Member WHERE Member_UserID = @MemberUserId";
+                    using (SqlCommand cmd = new SqlCommand(deleteMemberSql, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@MemberUserId", memberUserId);
+                        cmd.ExecuteNonQuery();
+                    }
+                    
+                    string deleteNetUserSql = @"DELETE FROM NetUser WHERE UserID = @UserId";
+                    using (SqlCommand cmd = new SqlCommand(deleteNetUserSql, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@UserId", memberUserId);
+                        cmd.ExecuteNonQuery();
+                    }
+                    
+                    transaction.Commit();
                 }
+                catch
+                {                    
+                    transaction.Rollback();
+                    throw; 
+                }
+            }
+        }
+
+
+        private void DeleteInstructor(int instructorId)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {                
+                con.Open();
+                SqlTransaction transaction = con.BeginTransaction();
+
+                try
+                {                    
+                    string deleteInstructorSql = @"DELETE FROM Instructor WHERE InstructorID = @InstructorID";
+                    using (SqlCommand cmd = new SqlCommand(deleteInstructorSql, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@InstructorID", instructorId);
+                        cmd.ExecuteNonQuery();
+                    }
+                    
+                    string deleteNetUserSql = @"DELETE FROM NetUser WHERE UserID = @UserId";
+                    using (SqlCommand cmd = new SqlCommand(deleteNetUserSql, con, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@UserId", instructorId);
+                        cmd.ExecuteNonQuery();
+                    }                    
+                    transaction.Commit();
+                }
+                catch
+                {                   
+                    transaction.Rollback();
+                    throw; 
+                }
+            }
+        }
+
+        protected void AddInstructorButton_Click(object sender, EventArgs e)
+        {
+            
+            int newUserId = InsertNetUserAndGetId(InstructorFirstName.Text, InstructorLastName.Text, "Instructor"); 
+            if (newUserId > 0)
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    string sql = @"INSERT INTO Instructor (InstructorID, InstructorFirstName, InstructorLastName, InstructorPhoneNumber)
+                           VALUES (@UserId, @FirstName, @LastName, @Phone)";
+
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@UserId", newUserId);
+                        cmd.Parameters.AddWithValue("@FirstName", InstructorFirstName.Text.Trim());
+                        cmd.Parameters.AddWithValue("@LastName", InstructorLastName.Text.Trim());
+                        cmd.Parameters.AddWithValue("@Phone", 0000000); //add TextBox ont he frontend for phone number InstructorPhoneNumber.Text.Trim()
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                BindInstructorsGrid();
+                
+                InstructorFirstName.Text = string.Empty;
+                InstructorLastName.Text = string.Empty;
+                //InstructorPhoneNumber.Text = string.Empty;  <<<<< remember to fix this on the frontend
             }
         }
     }
