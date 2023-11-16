@@ -24,13 +24,13 @@ namespace MSDAssignment4
         protected global::System.Web.UI.WebControls.GridView AdminMemberView;
 
         /// <summary>
-        /// TextBox1 control.
+        /// MemberFirstName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox MemberFirstName;
 
         /// <summary>
         /// Label1 control.
@@ -42,13 +42,13 @@ namespace MSDAssignment4
         protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// TextBox2 control.
+        /// MemberLastName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.TextBox MemberLastName;
 
         /// <summary>
         /// Label2 control.
@@ -60,13 +60,13 @@ namespace MSDAssignment4
         protected global::System.Web.UI.WebControls.Label Label2;
 
         /// <summary>
-        /// TextBox3 control.
+        /// MemberPhoneNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox3;
+        protected global::System.Web.UI.WebControls.TextBox MemberPhoneNumber;
 
         /// <summary>
         /// Label3 control.
@@ -78,13 +78,13 @@ namespace MSDAssignment4
         protected global::System.Web.UI.WebControls.Label Label3;
 
         /// <summary>
-        /// TextBox4 control.
+        /// MemberDateJoined control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox4;
+        protected global::System.Web.UI.WebControls.TextBox MemberDateJoined;
 
         /// <summary>
         /// Label4 control.
@@ -114,13 +114,13 @@ namespace MSDAssignment4
         protected global::System.Web.UI.WebControls.Button DeleteMemberButton;
 
         /// <summary>
-        /// TextBox7 control.
+        /// SectionAssignMember control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox7;
+        protected global::System.Web.UI.WebControls.TextBox SectionAssignMember;
 
         /// <summary>
         /// Label7 control.
@@ -150,13 +150,13 @@ namespace MSDAssignment4
         protected global::System.Web.UI.WebControls.GridView AdminInstructorView;
 
         /// <summary>
-        /// TextBox5 control.
+        /// InstructorFirstName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox5;
+        protected global::System.Web.UI.WebControls.TextBox InstructorFirstName;
 
         /// <summary>
         /// Label5 control.
@@ -168,13 +168,13 @@ namespace MSDAssignment4
         protected global::System.Web.UI.WebControls.Label Label5;
 
         /// <summary>
-        /// TextBox6 control.
+        /// InstructorLastName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox6;
+        protected global::System.Web.UI.WebControls.TextBox InstructorLastName;
 
         /// <summary>
         /// Label6 control.

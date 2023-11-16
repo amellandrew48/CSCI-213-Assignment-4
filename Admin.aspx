@@ -36,20 +36,12 @@
                     <SortedDescendingHeaderStyle BackColor="#15524A" />
                 </asp:GridView>
             </td>
-            <td class="auto-style2">Add Member<br />
-                <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
-&nbsp;<asp:Label ID="Label1" runat="server" Text="First Name"></asp:Label>
-                <br />
-                <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
-&nbsp;<asp:Label ID="Label2" runat="server" Text="Last Name"></asp:Label>
-                <br />
-                <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
-&nbsp;<asp:Label ID="Label3" runat="server" Text="Phone Number"></asp:Label>
-                <br />
-                <asp:TextBox ID="TextBox4" runat="server"></asp:TextBox>
-&nbsp;<asp:Label ID="Label4" runat="server" Text="Date Joined"></asp:Label>
-                <br />
-                <asp:Button ID="AddMemberButton" runat="server" Text="Add Member" />
+            <td class="auto-style2">                Add Member<br />
+                <asp:TextBox ID="MemberFirstName" runat="server"></asp:TextBox>&nbsp;<asp:Label ID="Label1" runat="server" Text="First Name"></asp:Label><br />
+                <asp:TextBox ID="MemberLastName" runat="server"></asp:TextBox>&nbsp;<asp:Label ID="Label2" runat="server" Text="Last Name"></asp:Label><br />
+                <asp:TextBox ID="MemberPhoneNumber" runat="server"></asp:TextBox>&nbsp;<asp:Label ID="Label3" runat="server" Text="Phone Number"></asp:Label><br />
+                <asp:TextBox ID="MemberDateJoined" runat="server"></asp:TextBox>&nbsp;<asp:Label ID="Label4" runat="server" Text="Date Joined(MM/DD/YYYY)"></asp:Label><br />
+                <asp:Button ID="AddMemberButton" runat="server" Text="Add Member" OnClick="AddMemberButton_Click" />
             </td>
             <td class="auto-style4">Delete Selected Member<br />
                 <br />
@@ -57,7 +49,7 @@
             </td>
             <td>Assign Selected Members<br />
                 <br />
-                <asp:TextBox ID="TextBox7" runat="server"></asp:TextBox>
+                <asp:TextBox ID="SectionAssignMember" runat="server"></asp:TextBox>
 &nbsp;<asp:Label ID="Label7" runat="server" Text="Section"></asp:Label>
                 <br />
                 <asp:Button ID="AssignMembersButton" runat="server" Text="Assign Members" />
@@ -67,7 +59,7 @@
         <tr>
             <td class="auto-style3">
                 <br />
-                <asp:GridView ID="AdminInstructorView" runat="server" CellPadding="4" CssClass="auto-style1" ForeColor="#333333" GridLines="None">
+                <asp:GridView ID="AdminInstructorView" runat="server" CellPadding="4" CssClass="auto-style1" ForeColor="#333333" GridLines="None" >
                     <AlternatingRowStyle BackColor="White" />
                     <Columns>
                         <asp:ButtonField CommandName="Cancel" Text="Select" />
@@ -85,10 +77,10 @@
                 </asp:GridView>
             </td>
             <td class="auto-style2">Add Instructor<br />
-                <asp:TextBox ID="TextBox5" runat="server"></asp:TextBox>
+                <asp:TextBox ID="InstructorFirstName" runat="server"></asp:TextBox>
 &nbsp;<asp:Label ID="Label5" runat="server" Text="First Name"></asp:Label>
                 <br />
-                <asp:TextBox ID="TextBox6" runat="server"></asp:TextBox>
+                <asp:TextBox ID="InstructorLastName" runat="server"></asp:TextBox>
 &nbsp;<asp:Label ID="Label6" runat="server" Text="Last Name"></asp:Label>
                 <br />
                 <asp:Button ID="AddInstructorButton" runat="server" Text="Add Instructor" />

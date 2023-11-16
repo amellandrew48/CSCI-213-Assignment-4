@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Web.Configuration;
-using System.Web.Security;
 using System.Web.UI.WebControls;
 
 namespace MSDAssignment4
@@ -25,7 +24,7 @@ namespace MSDAssignment4
             else
             {
              
-                Login1.FailureText = "Invalid username or password.";
+                Login1.FailureText = "Invalid username/password.";
                 e.Authenticated = false;
             }
         }
