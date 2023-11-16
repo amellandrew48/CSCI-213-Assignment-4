@@ -75,7 +75,6 @@ namespace MSDAssignment4
                         cmd.Parameters.AddWithValue("@Phone", MemberPhoneNumber.Text.Trim());
                         cmd.Parameters.AddWithValue("@DateJoined", DateTime.Now); 
                         cmd.Parameters.AddWithValue("@Email", $"{MemberFirstName.Text.Trim()}.{MemberLastName.Text.Trim()}@ndsu.edu".ToLower());
-
                         con.Open();
                         cmd.ExecuteNonQuery();
                     }
@@ -98,7 +97,6 @@ namespace MSDAssignment4
                 
                 string username = $"{firstName}.{lastName}".ToLower();
                 string password = $"{firstName}.{lastName}".ToLower();
-
                 string sql = @"INSERT INTO NetUser (UserName, UserPassword, UserType)
                        VALUES (@UserName, @UserPassword, 'Member');
                        SELECT SCOPE_IDENTITY();";
@@ -142,11 +140,10 @@ namespace MSDAssignment4
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                // Use the correct column name from your database table in the SQL statement
+                
                 string sql = @"DELETE FROM Member WHERE Member_UserID = @MemberUserId";
                 using (SqlCommand cmd = new SqlCommand(sql, con))
-                {
-                    // Use the correct parameter name that matches the SQL statement
+                {                    
                     cmd.Parameters.AddWithValue("@MemberUserId", memberUserId);
                     con.Open();
                     cmd.ExecuteNonQuery();
