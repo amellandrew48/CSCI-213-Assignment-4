@@ -17,7 +17,78 @@ namespace MSDAssignment4
             {
                 BindMembersGrid();
                 BindInstructorsGrid();
+                BindSectionsDropDown();
             }
+        }
+
+        private void BindSectionsDropDown()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("SELECT SectionID, SectionName FROM Section", con))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        SectionDropDownList.DataSource = reader;
+                        SectionDropDownList.DataValueField = "SectionID";
+                        SectionDropDownList.DataTextField = "SectionName";
+                        SectionDropDownList.DataBind();
+                    }
+                }
+            }            
+            SectionDropDownList.Items.Insert(0, new ListItem("--Select Section--", "0"));
+        }
+
+        protected void AssignMembersButton_Click(object sender, EventArgs e)
+        {
+            if (ViewState["SelectedMemberUserID"] != null && SectionDropDownList.SelectedValue != "0")
+            {
+                int memberId = (int)ViewState["SelectedMemberUserID"];
+                int sectionId = Convert.ToInt32(SectionDropDownList.SelectedValue);
+                AssignMemberToSection(memberId, sectionId);
+            }
+            else
+            {
+                string script = "alert('Please select a member and a section.');";
+                ScriptManager.RegisterStartupScript(this, GetType(), "popupMessage", script, true);
+            }
+        }
+
+        private void AssignMemberToSection(int memberId, int sectionId)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+               
+                string sql = @"UPDATE Section SET Member_ID = @MemberId WHERE SectionID = @SectionId";
+
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@MemberId", memberId);
+                    cmd.Parameters.AddWithValue("@SectionId", sectionId);
+
+                    con.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+
+                    if (rowsAffected == 0)
+                    {
+                        
+                        ShowMessage("The section could not be found or no changes were made.");
+                    }
+                    else
+                    {
+                        
+                        ShowMessage("Member has been successfully assigned to the section.");
+                    }
+                }
+            }
+        }
+
+        private void ShowMessage(string message)
+        {
+            string script = $"alert('{message}');";
+            ScriptManager.RegisterStartupScript(this, GetType(), "popupMessage", script, true);
         }
 
         private void BindMembersGrid()

@@ -53,11 +53,13 @@
                 <asp:Button ID="DeleteMemberButton" runat="server" Text="Delete Member" OnClick="DeleteMemberButton_Click" />
             </td>
             <td>Assign Selected Members<br />
-                <br />
-                <asp:TextBox ID="SectionAssignMember" runat="server"></asp:TextBox>
+                <br />                
+                <asp:DropDownList ID="SectionDropDownList" runat="server">
+                </asp:DropDownList>
+                &nbsp;<asp:Label ID="Label8" runat="server" Text="Select Section"></asp:Label>
                 &nbsp;<asp:Label ID="Label7" runat="server" Text="Section"></asp:Label>
                 <br />
-                <asp:Button ID="AssignMembersButton" runat="server" Text="Assign Members" />
+                <asp:Button ID="AssignMembersButton" runat="server" Text="Assign Members" OnClick="AssignMembersButton_Click" />
                 <br />
             </td>
         </tr>
