@@ -51,7 +51,7 @@ namespace MSDAssignment4
             else
             {
                 string script = "alert('Please select a member and a section.');";
-                ScriptManager.RegisterStartupScript(this, GetType(), "popupMessage", script, true);
+                ShowMessage(script);
             }
         }
 
@@ -165,24 +165,42 @@ namespace MSDAssignment4
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string username = $"{firstName}.{lastName}".ToLower();
-                string password = $"{firstName}.{lastName}".ToLower(); // We can hash this later if we want to and make it better andrew
+                string baseUsername = $"{firstName}.{lastName}".ToLower();
+                string username = baseUsername;
+                int userNumber = 1;
+
+                //checking the username 
+                string checkUserSql = @"SELECT COUNT(*) FROM NetUser WHERE UserName = @UserName";
+                using (SqlCommand checkCmd = new SqlCommand(checkUserSql, con))
+                {
+                    con.Open();
+                    checkCmd.Parameters.AddWithValue("@UserName", username);
+                    while ((int)checkCmd.ExecuteScalar() > 0)
+                    {
+                        //adding a digit if username already exists
+                        username = $"{baseUsername}{userNumber++}";
+                        checkCmd.Parameters["@UserName"].Value = username;
+                    }
+                }
+
+                //adding the user
+                string password = baseUsername; 
                 string sql = @"INSERT INTO NetUser (UserName, UserPassword, UserType)
                        VALUES (@UserName, @UserPassword, @UserType);
                        SELECT SCOPE_IDENTITY();";
-
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {
+                    
                     cmd.Parameters.AddWithValue("@UserName", username);
                     cmd.Parameters.AddWithValue("@UserPassword", password);
-                    cmd.Parameters.AddWithValue("@UserType", userType); 
+                    cmd.Parameters.AddWithValue("@UserType", userType);
 
-                    con.Open();
                     object result = cmd.ExecuteScalar();
                     return (result != null) ? Convert.ToInt32(result) : -1;
                 }
             }
         }
+
 
         protected void AdminMemberView_SelectedIndexChanged(object sender, EventArgs e)
         {            

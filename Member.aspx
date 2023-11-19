@@ -1,16 +1,23 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="Member.aspx.cs" Inherits="MSDAssignment4.Member" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/css">
-    .auto-style3 {
-        width: 277px;
-    }
-    .auto-style4 {
-        width: 86px;
-    }
-    .auto-style5 {
-        margin-left: 74px;
-    }
-</style>
+        .auto-style1 {
+            margin-left: 0px;
+        }
+
+        .auto-style2 {
+            width: 377px;
+        }
+
+        .auto-style3 {
+            width: 444px;
+        }
+
+        .auto-style4 {
+            width: 287px;
+        }
+    </style>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <table style="width:100%;">
@@ -22,7 +29,7 @@
             <asp:Label ID="MemberLastNameLabel" runat="server" Text="Label"></asp:Label>
         </td>
         <td>
-            <asp:GridView ID="MemberGridView" runat="server" CellPadding="4" CssClass="auto-style5" ForeColor="#333333" GridLines="None">
+            <asp:GridView ID="SectionGridView" runat="server" CellPadding="4" CssClass="auto-style5" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" />
                 <EditRowStyle BackColor="#7C6F57" />
                 <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />

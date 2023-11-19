@@ -22,8 +22,7 @@ namespace MSDAssignment4
                 e.Authenticated = true;
             }
             else
-            {
-             
+            {             
                 Login1.FailureText = "Invalid username/password.";
                 e.Authenticated = false;
             }
@@ -60,29 +59,28 @@ namespace MSDAssignment4
                 try
                 {
                     con.Open();
-                    string query = "SELECT UserType FROM NetUser WHERE UserName = @UserName AND UserPassword = @UserPassword"; 
+                    string query = "SELECT UserID, UserType FROM NetUser WHERE UserName = @UserName AND UserPassword = @UserPassword";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@UserName", username);
-                        cmd.Parameters.AddWithValue("@UserPassword", password); 
+                        cmd.Parameters.AddWithValue("@UserPassword", password);
 
-                        object userType = cmd.ExecuteScalar();
-
-                        if (userType != null)
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            authenticated = true;
-                            string role = userType.ToString();
-
-                            Session["UserType"] = role;
+                            if (reader.Read())
+                            {
+                                authenticated = true;
+                                Session["UserID"] = reader["UserID"];
+                                Session["UserType"] = reader["UserType"].ToString();
+                            }
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                   
+                    
                     authenticated = false;
-                   
                 }
             }
 
