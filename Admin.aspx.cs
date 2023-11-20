@@ -249,32 +249,52 @@ namespace MSDAssignment4
         private void DeleteMember(int memberUserId)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
-            {                
+            {
                 con.Open();
                 SqlTransaction transaction = con.BeginTransaction();
 
                 try
-                {                    
+                {
+
+                    string checkSectionsSql = @"SELECT COUNT(*) FROM Section WHERE Member_ID = @MemberUserId";
+                    using (SqlCommand checkCmd = new SqlCommand(checkSectionsSql, con, transaction))
+                    {
+                        checkCmd.Parameters.AddWithValue("@MemberUserId", memberUserId);
+                        int count = (int)checkCmd.ExecuteScalar();
+
+                        if (count > 0)
+                        {
+                            string deleteSectionsSql = @"DELETE FROM Section WHERE Member_ID = @MemberUserId";
+                            using (SqlCommand deleteSectionsCmd = new SqlCommand(deleteSectionsSql, con, transaction))
+                            {
+                                deleteSectionsCmd.Parameters.AddWithValue("@MemberUserId", memberUserId);
+                                deleteSectionsCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+
                     string deleteMemberSql = @"DELETE FROM Member WHERE Member_UserID = @MemberUserId";
                     using (SqlCommand cmd = new SqlCommand(deleteMemberSql, con, transaction))
                     {
                         cmd.Parameters.AddWithValue("@MemberUserId", memberUserId);
                         cmd.ExecuteNonQuery();
                     }
-                    
+
+
                     string deleteNetUserSql = @"DELETE FROM NetUser WHERE UserID = @UserId";
                     using (SqlCommand cmd = new SqlCommand(deleteNetUserSql, con, transaction))
                     {
                         cmd.Parameters.AddWithValue("@UserId", memberUserId);
                         cmd.ExecuteNonQuery();
                     }
-                    
+
                     transaction.Commit();
                 }
                 catch
-                {                    
+                {
                     transaction.Rollback();
-                    throw; 
+                    throw;
                 }
             }
         }
@@ -283,34 +303,55 @@ namespace MSDAssignment4
         private void DeleteInstructor(int instructorId)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
-            {                
+            {
                 con.Open();
                 SqlTransaction transaction = con.BeginTransaction();
 
                 try
-                {                    
+                {
+                    
+                    string checkSectionsSql = @"SELECT COUNT(*) FROM Section WHERE Instructor_ID = @InstructorId";
+                    using (SqlCommand checkCmd = new SqlCommand(checkSectionsSql, con, transaction))
+                    {
+                        checkCmd.Parameters.AddWithValue("@InstructorId", instructorId);
+                        int count = (int)checkCmd.ExecuteScalar();
+
+                        
+                        if (count > 0)
+                        {                            
+                            string updateSectionsSql = @"UPDATE Section SET Instructor_ID = NULL WHERE Instructor_ID = @InstructorId";
+                            using (SqlCommand updateSectionsCmd = new SqlCommand(updateSectionsSql, con, transaction))
+                            {
+                                updateSectionsCmd.Parameters.AddWithValue("@InstructorId", instructorId);
+                                updateSectionsCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                    
                     string deleteInstructorSql = @"DELETE FROM Instructor WHERE InstructorID = @InstructorID";
                     using (SqlCommand cmd = new SqlCommand(deleteInstructorSql, con, transaction))
                     {
                         cmd.Parameters.AddWithValue("@InstructorID", instructorId);
                         cmd.ExecuteNonQuery();
                     }
-                    
+                   
                     string deleteNetUserSql = @"DELETE FROM NetUser WHERE UserID = @UserId";
                     using (SqlCommand cmd = new SqlCommand(deleteNetUserSql, con, transaction))
                     {
                         cmd.Parameters.AddWithValue("@UserId", instructorId);
                         cmd.ExecuteNonQuery();
-                    }                    
+                    }
+
                     transaction.Commit();
                 }
                 catch
-                {                   
+                {
                     transaction.Rollback();
-                    throw; 
+                    throw;
                 }
             }
         }
+
 
         protected void AddInstructorButton_Click(object sender, EventArgs e)
         {
