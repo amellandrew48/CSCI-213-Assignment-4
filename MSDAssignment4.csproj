@@ -100,6 +100,9 @@
     <Compile Include="Instructor.aspx.designer.cs">
       <DependentUpon>Instructor.aspx</DependentUpon>
     </Compile>
+    <Compile Include="KarateClass.cs">
+      <DependentUpon>KarateClass.dbml</DependentUpon>
+    </Compile>
     <Compile Include="KarateClass.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
