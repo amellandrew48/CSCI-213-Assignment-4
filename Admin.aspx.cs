@@ -39,58 +39,6 @@ namespace MSDAssignment4
             }            
             SectionDropDownList.Items.Insert(0, new ListItem("--Select Section--", "0"));
         }
-
-        protected void AssignMembersButton_Click(object sender, EventArgs e)
-        {
-            if (ViewState["SelectedMemberUserID"] != null && SectionDropDownList.SelectedValue != "0")
-            {
-                int memberId = (int)ViewState["SelectedMemberUserID"];
-                int sectionId = Convert.ToInt32(SectionDropDownList.SelectedValue);
-                AssignMemberToSection(memberId, sectionId);
-            }
-            else
-            {
-                string script = "alert('Please select a member and a section.');";
-                ShowMessage(script);
-            }
-        }
-
-        private void AssignMemberToSection(int memberId, int sectionId)
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-               
-                string sql = @"UPDATE Section SET Member_ID = @MemberId WHERE SectionID = @SectionId";
-
-                using (SqlCommand cmd = new SqlCommand(sql, con))
-                {
-                    cmd.Parameters.AddWithValue("@MemberId", memberId);
-                    cmd.Parameters.AddWithValue("@SectionId", sectionId);
-
-                    con.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-
-                    if (rowsAffected == 0)
-                    {
-                        
-                        ShowMessage("The section could not be found or no changes were made.");
-                    }
-                    else
-                    {
-                        
-                        ShowMessage("Member has been successfully assigned to the section.");
-                    }
-                }
-            }
-        }
-
-        private void ShowMessage(string message)
-        {
-            string script = $"alert('{message}');";
-            ScriptManager.RegisterStartupScript(this, GetType(), "popupMessage", script, true);
-        }
-
         private void BindMembersGrid()
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -126,6 +74,58 @@ namespace MSDAssignment4
                 }
             }
         }
+
+        protected void AssignMembersButton_Click(object sender, EventArgs e)
+        {
+            if (ViewState["SelectedMemberUserID"] != null && SectionDropDownList.SelectedValue != "0")
+            {
+                int memberId = (int)ViewState["SelectedMemberUserID"];
+                int sectionId = Convert.ToInt32(SectionDropDownList.SelectedValue);
+                AssignMemberToSection(memberId, sectionId);
+            }
+            else
+            {
+                string script = "Please select a member and a section.";
+                ShowMessage(script);
+            }
+        }
+
+        private void ShowMessage(string message)
+        {
+            string script = $"alert('{message}');";
+            ScriptManager.RegisterStartupScript(this, GetType(), "popupMessage", script, true);
+        }
+
+        private void AssignMemberToSection(int memberId, int sectionId)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+               
+                string sql = @"UPDATE Section SET Member_ID = @MemberId WHERE SectionID = @SectionId";
+
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@MemberId", memberId);
+                    cmd.Parameters.AddWithValue("@SectionId", sectionId);
+
+                    con.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+
+                    if (rowsAffected == 0)
+                    {
+                        
+                        ShowMessage("The section could not be found or no changes were made.");
+                    }
+                    else
+                    {
+                        
+                        ShowMessage("Member has been successfully assigned to the section.");
+                    }
+                }
+            }
+        }
+
         protected void AddMemberButton_Click(object sender, EventArgs e)
         {
             
@@ -226,8 +226,8 @@ namespace MSDAssignment4
             }
             else
             {                
-                string script = "alert('Please select a member first.');";
-                ScriptManager.RegisterStartupScript(this, GetType(), "popupMessage", script, true);
+                string script = "Please select a member first.";
+                ShowMessage(script);
             }
         }
 
@@ -241,8 +241,8 @@ namespace MSDAssignment4
             }
             else
             {
-                string script = "alert('Please select a instructor first.');";
-                ScriptManager.RegisterStartupScript(this, GetType(), "popupMessage", script, true);
+                string script = "Please select a instructor first.";
+                ShowMessage(script);
             }
         }
 
