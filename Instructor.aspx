@@ -1,22 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="Instructor.aspx.cs" Inherits="MSDAssignment4.Instructor" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/css">
-        .auto-style1 {
-            margin-left: 0px;
-        }
-
-        .auto-style2 {
-            width: 377px;
-        }
-
-        .auto-style3 {
-            width: 444px;
-        }
-
-        .auto-style4 {
-            width: 287px;
-        }
-    </style>
+    .auto-style1 {
+        width: 93px;
+    }
+</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <table style="width:100%;">
